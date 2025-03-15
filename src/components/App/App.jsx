@@ -3,22 +3,31 @@ import "./App.css";
 import ContactForm from "/src/components/ContactForm/ContactForm";
 import SearchBox from "/src/components/SearchBox/SearchBox";
 import ContactList from "/src/components/ContactList/ContactList";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "/src/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useEffect } from "react";
+import { fetchContacts } from "../../redux/contactsOperations";
+import { selectError, selectLoading } from "../../redux/contactsSlice";
+import Loader from "../Loader/Loader";
 
 function App() {
+  const dispatch = useDispatch();
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <div>
-          <h1>Phonebook</h1>
-          <ContactForm />
-          <SearchBox />
-          <ContactList />
-        </div>
-      </PersistGate>
-    </Provider>
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm />
+      <SearchBox />
+      <ContactList />
+      {loading && <Loader />}
+      {error && <p>Ups...Something went wrong</p>}
+    </div>
   );
 }
 
