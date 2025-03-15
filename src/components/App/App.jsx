@@ -6,7 +6,7 @@ import ContactList from "/src/components/ContactList/ContactList";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect } from "react";
-import { fetchContacts } from "../../redux/contactsOperations";
+import { fetchContacts } from "../../redux/contactsOps";
 import { selectError, selectLoading } from "../../redux/contactsSlice";
 import Loader from "../Loader/Loader";
 
